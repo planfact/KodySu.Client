@@ -10,6 +10,12 @@ obj/
 *.suo
 *.userprefs
 
+# Coverage reports
+/CoverageReport/
+coverage.xml
+coverage.cobertura.xml
+coverage.opencover.xml
+
 # OS
 .DS_Store
 Thumbs.db

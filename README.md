@@ -1,5 +1,13 @@
 # KodySu.Client
 
+[![NuGet Version](https://img.shields.io/nuget/v/KodySu.Client.svg)](https://www.nuget.org/packages/KodySu.Client/)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/KodySu.Client.svg)](https://www.nuget.org/packages/KodySu.Client/)
+[![Build Status](https://github.com/planfact/KodySu.Client/workflows/Build%20%26%20Test/badge.svg)](https://github.com/planfact/KodySu.Client/actions)
+[![codecov](https://codecov.io/gh/planfact/KodySu.Client/branch/main/graph/badge.svg)](https://codecov.io/gh/planfact/KodySu.Client)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![.NET](https://img.shields.io/badge/.NET-6.0%20%7C%208.0%20%7C%209.0-blue)](https://dotnet.microsoft.com/)
+[![GitHub release](https://img.shields.io/github/release/planfact/KodySu.Client.svg)](https://github.com/planfact/KodySu.Client/releases)
+
 Типобезопасный .NET клиент для работы с [KodySu API v2.1](https://www.kody.su/api?docs) с поддержкой кеширования.
 
 ## Особенности
@@ -191,6 +199,27 @@ catch (KodySuHttpException ex)
 - **Retry**: автоматические повторы при транзиентных ошибках
 - **Circuit Breaker**: защита от каскадных сбоев
 - **Rate Limiting**: обработка ответов 429 (Too Many Requests)
+
+## Тестирование и покрытие кода
+
+Проект имеет высокое покрытие unit тестами:
+
+- **58 unit тестов** - полное покрытие основной функциональности
+- **Кроссплатформенное тестирование** - macOS, Ubuntu, Windows
+- **Мокирование HTTP** - тесты не зависят от внешних сервисов
+- **Автоматическое покрытие** - интеграция с Codecov
+
+### Запуск тестов локально
+
+```bash
+# Обычный запуск тестов
+dotnet test
+
+# Запуск с генерацией HTML отчета о покрытии
+./coverage.sh
+```
+
+После выполнения `./coverage.sh` откройте `./CoverageReport/index.html` в браузере для просмотра детального отчета.
 
 ## Лицензия
 

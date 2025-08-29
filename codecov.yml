@@ -1,0 +1,25 @@
+# Codecov configuration
+coverage:
+  status:
+    project:
+      default:
+        target: 80%
+        threshold: 5%
+    patch:
+      default:
+        target: 70%
+        threshold: 5%
+
+ignore:
+  - "**/*.Designer.cs"
+  - "**/bin/**"
+  - "**/obj/**"
+  - "**/*Tests.cs"
+  - "**/*Test.cs"
+  - "**/Program.cs"
+  - "**/AssemblyInfo.cs"
+
+comment:
+  layout: "reach,diff,flags,files,footer"
+  behavior: default
+  require_changes: false

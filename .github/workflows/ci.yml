@@ -27,7 +27,14 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test --configuration Release --no-build --collect:"XPlat Code Coverage" --logger "trx;LogFileName=test_results.trx"
+        run: dotnet test --configuration Release --no-build --collect:"XPlat Code Coverage" --logger "trx;LogFileName=test_results.trx" --results-directory ./TestResults
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          directory: ./TestResults
+          fail_ci_if_error: false
+          verbose: true
 
       - name: Upload Test Results
         if: always()
