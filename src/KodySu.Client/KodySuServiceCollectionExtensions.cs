@@ -38,7 +38,7 @@ public static class KodySuServiceCollectionExtensions
 
     /// <summary>
     /// Регистрирует кэширующий HTTP-клиент для работы с KodySu API.
-    /// Использует средне-срочное кеширование (10 минут) - оптимально для API поиска телефонов.
+    /// Использует средне-срочное кеширование (10 минут TTL, 1000 записей) - оптимально для API поиска телефонов.
     /// </summary>
     /// <param name="services">Коллекция сервисов DI</param>
     /// <param name="config">Конфигурация приложения</param>
@@ -50,7 +50,7 @@ public static class KodySuServiceCollectionExtensions
         services.Configure<KodySuClientOptions>(section);
         services.AddSingleton<IHttpResponseHandler<KodySuSearchResponse>, KodySuHttpResponseHandler>();
 
-        // Используем preset для среднесрочного кеширования (10 минут)
+        // Используем preset для среднесрочного кеширования (10 минут TTL, 1000 записей)
         // Оптимально для API поиска телефонов - баланс между актуальностью и производительностью
         services.AddHttpClient<CachedHttpClient<KodySuSearchResponse>>("KodySuCached", (sp, http) =>
         {

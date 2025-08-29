@@ -1,33 +1,21 @@
-# KodySu HTTP Client
+# KodySu.Client
 
-Идиоматичный HTTP-клиент для работы с [KodySu API v2.1](https://www.kody.su/api?docs) на базе `Reliable.HttpClient` в .NET 6 (C# 10).
+Типобезопасный .NET клиент для работы с [KodySu API v2.1](https://www.kody.su/api?docs) с поддержкой кеширования.
 
 ## Особенности
 
 - **Типобезопасность** - используются strongly typed модели вместо магических строк
-- **Надежность** - политики повтора (retry), circuit breaker для обработки сбоев из `Reliable.HttpClient`
-- **HTTP-уровень кэширования** - использует `Reliable.HttpClient.Caching` для прозрачного кэширования
+- **Надежность** - политики повтора (retry), circuit breaker для обработки сбоев
+- **HTTP-кеширование** - прозрачное кеширование ответов API (5 минут TTL)
+- **Мульти-таргетинг** - поддержка .NET 6.0, 8.0 и 9.0
 - **Логирование** - структурированное логирование всех операций
-- **Нормализация номеров** - автоматическая нормализация телефонных номеров
 - **Конфигурируемость** - настройка через appsettings.json или код
-- **Наследование** - общий базовый класс `KodySuClientBase` для устранения дублирования кода
+- **DI интеграция** - готовые расширения для ASP.NET Core
 
-## Структура проекта
+## Установка
 
-```text
-├── IKodySuClient.cs              # Интерфейс клиента
-├── KodySuClientBase.cs           # Базовый класс с общей функциональностью
-├── KodySuClient.cs               # Основная реализация HTTP клиента
-├── CachedKodySuClient.cs         # Реализация с HTTP-кэшированием
-├── ServiceCollectionExtensions.cs # Регистрация в DI
-├── KodySuClientOptions.cs        # Настройки клиента (наследует HttpClientOptions)
-├── KodySuHttpResponseHandler.cs  # Обработчик HTTP ответов
-├── KodySuResult.cs               # Модель результата поиска
-├── KodySuSearchResponse.cs       # Обёртка ответа API
-├── KodySuPhoneType.cs            # Типы номеров + расширения
-├── KodySuExceptions.cs           # Исключения клиента
-├── KodySuErrorCodes.cs           # Коды ошибок API
-└── README.md                     # Документация
+```bash
+dotnet add package KodySu.Client
 ```
 
 ## Быстрый старт
@@ -35,35 +23,25 @@
 ### 1. Регистрация в DI контейнере
 
 ```csharp
-// Простая регистрация без кэширования
-services.AddKodySuClient(options =>
-{
-    options.ApiKey = "your-api-key";
-    options.TimeoutSeconds = 30;
-});
+// Базовый клиент без кеширования
+services.AddKodySuClient(Configuration);
 
-// С HTTP-кэшированием (рекомендуется)
-services.AddKodySuClient(options =>
-{
-    options.ApiKey = "your-api-key";
-    options.TimeoutSeconds = 30;
-})
-.AddKodySuClientCaching(); // Использует Reliable.HttpClient.Caching
-
-// С настройкой параметров кэша
-services.AddKodySuClient(Configuration)
-.AddKodySuClientCaching(cacheOptions =>
-{
-    cacheOptions.DefaultExpiry = TimeSpan.FromHours(2);    // Время кэширования
-    cacheOptions.MaxCacheSize = 50_000;                    // Максимум записей
-});
-
-// Регистрация через конфигурацию
-services.AddKodySuClient(Configuration)
-.AddKodySuClientCaching();
+// Кешированный клиент (рекомендуется)
+services.AddCachedKodySuClient(Configuration);
 ```
 
-### 2. Использование
+### 2. Конфигурация через appsettings.json
+
+```json
+{
+  "KodySuOptions": {
+    "ApiKey": "your-api-key",
+    "TimeoutSeconds": 30
+  }
+}
+```
+
+### 3. Использование
 
 ```csharp
 public class PhoneService
@@ -77,97 +55,114 @@ public class PhoneService
 
     public async Task<string> GetOperatorAsync(string phoneNumber)
     {
-        var details = await _kodySuClient.SearchPhoneAsync(phoneNumber);
+        var result = await _kodySuClient.SearchPhoneAsync(phoneNumber);
 
-        if (details?.Success == true)
+        if (result?.Success == true)
         {
-            return details.GetDisplayOperator(); // Полное название оператора
+            return result.Operator ?? "Неизвестный оператор";
         }
 
-        return "Неизвестный оператор";
+        return "Номер не найден";
     }
 
-    public async Task AnalyzeNumberAsync(string phoneNumber)
+    public async Task<IReadOnlyList<KodySuResult>> SearchMultipleAsync(
+        IEnumerable<string> phoneNumbers)
     {
-        var details = await _kodySuClient.SearchPhoneAsync(phoneNumber);
-
-        if (details?.Success == true)
-        {
-            Console.WriteLine($"Тип: {details.GetNumberType().GetDescription()}");
-            Console.WriteLine($"Оператор: {details.GetDisplayOperator()}");
-
-            if (details.IsRussianMobile)
-            {
-                Console.WriteLine($"DEF-код: {details.DefCode}");
-
-                if (details.IsPortedNumber)
-                {
-                    Console.WriteLine($"Номер перенесен к: {details.BdpnOperator}");
-                }
-            }
-        }
+        return await _kodySuClient.SearchPhonesAsync(phoneNumbers);
     }
 }
 ```
 
-## Типы номеров
+## Структура проекта
 
-Клиент поддерживает все типы номеров из API:
-
-- **Мобильные России** (`KodySuPhoneType.RussianMobile`) - DEF-код, оператор, БДПН
-- **Стационарные России** (`KodySuPhoneType.RussianFixed`) - код города, оператор
-- **Международные** (`KodySuPhoneType.Other`) - код страны, город
-- **Мобильные Украины** - относятся к категории "Other"
+```text
+├── IKodySuClient.cs                      # Интерфейс клиента
+├── KodySuClientBase.cs                   # Базовый класс с общей функциональностью
+├── KodySuClient.cs                       # Основная реализация HTTP клиента
+├── CachedKodySuClient.cs                 # Реализация с HTTP-кэшированием
+├── KodySuServiceCollectionExtensions.cs  # Регистрация в DI
+├── KodySuClientOptions.cs                # Настройки клиента
+├── KodySuHttpResponseHandler.cs          # Обработчик HTTP ответов
+├── KodySuResult.cs                       # Модель результата поиска
+├── KodySuSearchResponse.cs               # Модель ответа API
+├── KodySuPhoneType.cs                    # Перечисление типов номеров
+├── KodySuExceptions.cs                   # Исключения клиента
+├── KodySuErrorCodes.cs                   # Коды ошибок API
+└── PhoneNumber.cs                        # Модель телефонного номера
+```
 
 ## Конфигурация
 
+### Опции клиента
+
 ```csharp
-/// <summary>
-/// Настройки KodySu клиента (наследует от HttpClientOptions)
-/// </summary>
 public class KodySuClientOptions : HttpClientOptions
 {
     public string ApiKey { get; set; } = string.Empty;
-    public int CacheExpiryMinutes { get; set; } = 60; // Используется для справки
+    public int CacheExpiryMinutes { get; set; } = 60;
 
-    // Унаследованные от HttpClientOptions:
+    // Унаследованные настройки:
     // public string BaseUrl { get; set; } = "https://www.kody.su";
     // public int TimeoutSeconds { get; set; } = 30;
-    // public int MaxRetries { get; set; } = 3;
-    // public int BaseDelayMs { get; set; } = 1000;
     // public string UserAgent { get; set; } = "Planfact-KodySu-Client/1.0";
 }
 ```
 
-### Через appsettings.json
+### Расширенная конфигурация
 
 ```json
 {
   "KodySuOptions": {
     "ApiKey": "your-api-key",
+    "BaseUrl": "https://www.kody.su",
     "TimeoutSeconds": 60,
-    "MaxRetries": 5,
-    "BaseDelayMs": 2000
+    "UserAgent": "MyApp-KodySu-Client/1.0",
+    "CacheExpiryMinutes": 60
   }
 }
 ```
 
+## Модели данных
+
+### KodySuResult
+
+```csharp
+public class KodySuResult
+{
+    public string PhoneNumber { get; set; }
+    public bool Success { get; set; }
+    public string? Operator { get; set; }
+    public string? OperatorFull { get; set; }
+    public string? Country { get; set; }
+    public string? City { get; set; }
+    public string? DefCode { get; set; }
+    // ... другие свойства
+}
+```
+
+### Типы номеров
+
+```csharp
+public enum KodySuPhoneType
+{
+    RussianMobile,
+    RussianFixed,
+    Other
+}
+```
+
+## Кеширование
+
+Кешированный клиент (`CachedKodySuClient`) автоматически кеширует ответы API:
+
+- **TTL**: 10 минут (MediumTerm preset)
+- **Размер кеша**: 1,000 записей
+- **Автоматическое управление**: очистка старых записей
+- **Прозрачность**: кеширование на уровне HTTP ответов
+
 ## Обработка ошибок
 
-Клиент использует надежную обработку ошибок на основе `Reliable.HttpClient`:
-
-### **Автоматические политики (Reliable.HttpClient):**
-
-- **TooManyRequests (429)** - автоматический retry с экспоненциальной задержкой
-- **Транзиентные ошибки** - сетевые сбои, таймауты, 5xx ошибки
-- **Circuit Breaker** - защита от каскадных сбоев
-
-### **Исключения клиента:**
-
-- `KodySuConfigurationException` - ошибки конфигурации
-- `KodySuAuthenticationException` - ошибки аутентификации (401, 403)
-- `KodySuValidationException` - ошибки валидации от API (с кодом ошибки)
-- `KodySuHttpException` - прочие HTTP ошибки
+Клиент использует типизированные исключения для различных типов ошибок:
 
 ```csharp
 try
@@ -176,80 +171,27 @@ try
 }
 catch (KodySuAuthenticationException ex)
 {
-    // Проблемы с API ключом
+    // Ошибки аутентификации (401, 403)
+    Console.WriteLine($"Проблемы с API ключом: {ex.Message}");
 }
 catch (KodySuValidationException ex)
 {
-    // API вернул ошибку валидации
-    Console.WriteLine($"Код ошибки: {ex.ErrorCode}");
+    // Ошибки валидации от API
+    Console.WriteLine($"Ошибка валидации: {ex.ErrorCode} - {ex.Message}");
 }
 catch (KodySuHttpException ex)
 {
-    // HTTP ошибки
-    Console.WriteLine($"HTTP {ex.StatusCode}");
+    // Прочие HTTP ошибки
+    Console.WriteLine($"HTTP ошибка: {ex.StatusCode}");
 }
 ```
 
-## Расширения моделей
+### Автоматические политики надежности
 
-`KodySuResult` содержит удобные методы:
+- **Retry**: автоматические повторы при транзиентных ошибках
+- **Circuit Breaker**: защита от каскадных сбоев
+- **Rate Limiting**: обработка ответов 429 (Too Many Requests)
 
-```csharp
-var details = await _kodySuClient.SearchPhoneAsync("+79001234567");
+## Лицензия
 
-// Типизированный тип номера
-KodySuPhoneType type = details.GetNumberType();
-
-// Полное название оператора (приоритет - OperatorFull)
-string operatorName = details.GetDisplayOperator();
-
-// Проверки типов
-bool isMobile = details.IsRussianMobile;
-bool isFixed = details.IsRussianFixed;
-bool isPorted = details.IsPortedNumber;
-```
-
-## Производительность и архитектура
-
-### **HTTP-уровень кэширования (Reliable.HttpClient.Caching)**
-
-- **Прозрачное кэширование**: HTTP запросы кэшируются автоматически на уровне `CachedHttpClient`
-- **Время жизни по умолчанию**: 1 час с возможностью настройки
-- **Ограничение размера**: максимум 10,000 записей с автоматической очисткой
-- **Кэширование HTTP ответов**: кэшируется `KodySuSearchResponse`, а не результаты
-
-### **Архитектурные преимущества**
-
-- **Базовый класс `KodySuClientBase`**: устранение дублирования кода между `KodySuClient` и `CachedKodySuClient`
-- **Наследование функциональности**: общие методы (нормализация номеров, построение URI, логирование)
-- **Reliable.HttpClient интеграция**: использование проверенных паттернов надежности
-- **Eager validation**: правильная валидация аргументов в async методах (устранение EPC37)
-
-### **Производительность**
-
-- **Пулинг подключений**: используется стандартный HttpClient пул
-- **Экспоненциальная задержка**: интеллигентная обработка rate limiting
-- **Circuit breaker**: предотвращение каскадных сбоев
-- **Индивидуальные запросы**: корректное использование KodySu API (без ложной пакетной обработки)
-
-## Логирование
-
-Клиент использует структурированное логирование:
-
-```text
-[Debug] Поиск информации о номере телефона: {PhoneNumber}
-[Debug] Запрос успешен. Квота: {Quota}, найдено номеров: {Count}
-[Warning] Ошибка при определении номера {PhoneNumber}: {ErrorCode} - {ErrorMessage}
-[Error] HTTP ошибка при запросе к KodySu API: {ErrorMessage}
-```
-
-## Совместимость
-
-- **.NET 6+**
-- **KodySu API v2.1**
-- Обратно несовместимо со старыми версиями клиента (новая структура моделей)
-
-## Зависимости
-
-- **Reliable.HttpClient** - основа для HTTP клиента с политиками надежности
-- **Reliable.HttpClient.Caching** - HTTP-уровень кэширования
+Этот проект лицензирован под [MIT License](LICENSE).
