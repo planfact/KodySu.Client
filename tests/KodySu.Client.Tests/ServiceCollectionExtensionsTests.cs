@@ -102,10 +102,14 @@ public class ServiceCollectionExtensionsTests
         serviceProvider.GetRequiredService<IKodySuClient>().Should().BeOfType<CachedKodySuClient>();
         serviceProvider.GetRequiredService<CachedHttpClient<KodySuSearchResponse>>().Should().NotBeNull();
 
-        // Проверяем, что HttpCacheOptions правильно настроены для MediumTerm preset (10 минут)
-        IOptions<HttpCacheOptions> cacheOptions = serviceProvider.GetRequiredService<IOptions<HttpCacheOptions>>();
-        cacheOptions.Value.DefaultExpiry.Should().Be(TimeSpan.FromMinutes(10));
-        cacheOptions.Value.MaxCacheSize.Should().Be(1_000);
+        // Проверяем, что HttpCacheOptions правильно настроены для MediumTerm preset
+        // Используем IOptionsSnapshot для получения настроек именованного клиента "KodySuCached"
+        IOptionsSnapshot<HttpCacheOptions> optionsSnapshot = serviceProvider.GetRequiredService<IOptionsSnapshot<HttpCacheOptions>>();
+        HttpCacheOptions cacheOptions = optionsSnapshot.Get("KodySuCached");
+
+        // Проверяем точные значения MediumTerm preset (10 минут TTL, 1000 записей)
+        cacheOptions.DefaultExpiry.Should().Be(TimeSpan.FromMinutes(10));
+        cacheOptions.MaxCacheSize.Should().Be(1_000);
     }
 
     [Fact]
