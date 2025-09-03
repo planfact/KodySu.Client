@@ -16,7 +16,7 @@ public sealed record KodySuResult
     /// <summary>
     /// Признак успешности запроса по данному номеру
     /// </summary>
-    [JsonPropertyName("success")]
+    [JsonPropertyName("number_success")]
     public bool Success { get; init; }
 
     /// <summary>
