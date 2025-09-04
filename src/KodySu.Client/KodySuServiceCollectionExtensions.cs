@@ -20,19 +20,19 @@ public static class KodySuServiceCollectionExtensions
     /// <param name="config">Конфигурация приложения</param>
     /// <param name="sectionName">Имя секции с настройками клиента</param>
     /// <returns>Коллекция сервисов DI</returns>
-    public static IServiceCollection AddKodySuClient(this IServiceCollection services, IConfiguration config, string sectionName = KodySuClientOptions.SectionName)
+    public static IServiceCollection AddKodySuClient(
+        this IServiceCollection services,
+        IConfiguration config,
+        string sectionName = KodySuClientOptions.SectionName)
     {
         IConfigurationSection section = config.GetSection(sectionName);
         services.Configure<KodySuClientOptions>(section);
         services.AddSingleton<IHttpResponseHandler<KodySuSearchResponse>, KodySuHttpResponseHandler>();
-        services.AddHttpClient<IKodySuClient, KodySuClient>((sp, http) =>
-        {
-            KodySuClientOptions opts = sp.GetRequiredService<IOptions<KodySuClientOptions>>().Value;
-            http.BaseAddress = new Uri(opts.BaseUrl);
-            http.Timeout = TimeSpan.FromSeconds(opts.TimeoutSeconds);
-            if (!string.IsNullOrWhiteSpace(opts.UserAgent))
-                http.DefaultRequestHeaders.UserAgent.ParseAdd(opts.UserAgent);
-        });
+
+        services.AddHttpClient<IKodySuClient, KodySuClient>()
+            .ConfigureHttpClient(ConfigureKodySuHttpClient)
+            .AddResilience(); // Добавляем resilience для retry-политик и circuit breaker
+
         return services;
     }
 
@@ -44,7 +44,10 @@ public static class KodySuServiceCollectionExtensions
     /// <param name="config">Конфигурация приложения</param>
     /// <param name="sectionName">Имя секции с настройками клиента</param>
     /// <returns>Коллекция сервисов DI</returns>
-    public static IServiceCollection AddCachedKodySuClient(this IServiceCollection services, IConfiguration config, string sectionName = KodySuClientOptions.SectionName)
+    public static IServiceCollection AddCachedKodySuClient(
+        this IServiceCollection services,
+        IConfiguration config,
+        string sectionName = KodySuClientOptions.SectionName)
     {
         IConfigurationSection section = config.GetSection(sectionName);
         services.Configure<KodySuClientOptions>(section);
@@ -52,17 +55,39 @@ public static class KodySuServiceCollectionExtensions
 
         // Используем preset для среднесрочного кеширования (10 минут TTL, 1000 записей)
         // Оптимально для API поиска телефонов - баланс между актуальностью и производительностью
-        services.AddHttpClient<CachedHttpClient<KodySuSearchResponse>>("KodySuCached", (sp, http) =>
-        {
-            KodySuClientOptions opts = sp.GetRequiredService<IOptions<KodySuClientOptions>>().Value;
-            http.BaseAddress = new Uri(opts.BaseUrl);
-            http.Timeout = TimeSpan.FromSeconds(opts.TimeoutSeconds);
-            if (!string.IsNullOrWhiteSpace(opts.UserAgent))
-                http.DefaultRequestHeaders.UserAgent.ParseAdd(opts.UserAgent);
-        })
-        .AddMediumTermCache<KodySuSearchResponse>();
+        services.AddHttpClient<CachedHttpClient<KodySuSearchResponse>>("KodySuCached")
+            .ConfigureHttpClient(ConfigureKodySuHttpClient)
+            .AddMediumTermCache<KodySuSearchResponse>();
 
-        services.AddSingleton<IKodySuClient, CachedKodySuClient>();
+        // Регистрируем как Scoped (не Singleton!) чтобы избежать проблем с captured dependencies
+        services.AddScoped<IKodySuClient, CachedKodySuClient>();
+
         return services;
+    }
+
+    /// <summary>
+    /// Конфигурирует HttpClient для KodySu API без captured dependencies.
+    /// Поддерживает все настройки из HttpClientOptions: BaseUrl, Timeout, UserAgent.
+    /// Примечание: Retry-политики из Reliable.HttpClient настраиваются автоматически через AddResilience().
+    /// </summary>
+    /// <param name="serviceProvider">Service provider для резолюции зависимостей</param>
+    /// <param name="httpClient">HttpClient для конфигурации</param>
+    private static void ConfigureKodySuHttpClient(IServiceProvider serviceProvider, HttpClient httpClient)
+    {
+        // Резолвим Options на каждый вызов - избегаем captured dependency
+        KodySuClientOptions options = serviceProvider.GetRequiredService<IOptions<KodySuClientOptions>>().Value;
+
+        // Настройки HTTP клиента
+        httpClient.BaseAddress = new Uri(options.BaseUrl);
+        httpClient.Timeout = TimeSpan.FromSeconds(options.TimeoutSeconds);
+
+        if (!string.IsNullOrWhiteSpace(options.UserAgent))
+        {
+            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(options.UserAgent);
+        }
+
+        // Примечание: Retry-политики (options.Retry.MaxRetries, options.Retry.BaseDelay)
+        // настраиваются автоматически через Reliable.HttpClient при вызове .AddResilience()
+        // или через встроенные presets (.AddMediumTermCache<>() уже включает resilience)
     }
 }
