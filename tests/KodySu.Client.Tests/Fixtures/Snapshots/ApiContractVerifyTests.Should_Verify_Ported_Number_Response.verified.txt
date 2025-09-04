@@ -1,0 +1,20 @@
+﻿{
+  Quota: 479,
+  Numbers: [
+    {
+      PhoneNumber: 79161234567,
+      Success: true,
+      NumberType: 1,
+      NumberTypeString: Мобильный РФ,
+      DefCode: 916,
+      Operator: Билайн,
+      OperatorFull: ООО "Вымпел-Коммуникации",
+      Region: Москва и Московская область,
+      IsBdpn: true,
+      BdpnOperator: МТС,
+      IsRussianMobile: true,
+      IsRussianFixed: false,
+      IsPortedNumber: true
+    }
+  ]
+}

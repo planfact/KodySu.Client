@@ -1,0 +1,23 @@
+﻿{
+  Quota: 480,
+  Numbers: [
+    {
+      PhoneNumber: 74951234567,
+      Success: true,
+      NumberType: 2,
+      NumberTypeString: Стационарный РФ,
+      Operator: МГТС,
+      OperatorFull: ПАО "Московская городская телефонная сеть",
+      Region: Москва,
+      Time: +3 MSK,
+      CityCode: 495,
+      City: Москва,
+      CountryCode: 7,
+      InternationalCityCode: 495,
+      Country: Россия,
+      IsRussianMobile: false,
+      IsRussianFixed: true,
+      IsPortedNumber: false
+    }
+  ]
+}

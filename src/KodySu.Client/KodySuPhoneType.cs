@@ -40,10 +40,13 @@ public static class KodySuPhoneTypeExtensions
     {
         return numberTypeStr switch
         {
+            "Мобильный РФ" => KodySuPhoneType.RussianMobile,
+            "Стационарный РФ" => KodySuPhoneType.RussianFixed,
             "ru_mobile" => KodySuPhoneType.RussianMobile,
             "ru_fixed" => KodySuPhoneType.RussianFixed,
             "ua_mobile" => KodySuPhoneType.Other, // Украинские мобильные относим к "другим"
             "other" => KodySuPhoneType.Other,
+            "Другие" => KodySuPhoneType.Other,
             _ => KodySuPhoneType.Unknown
         };
     }

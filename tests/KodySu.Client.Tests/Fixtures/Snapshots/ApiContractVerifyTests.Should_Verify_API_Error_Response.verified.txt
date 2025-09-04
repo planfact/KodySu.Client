@@ -1,0 +1,4 @@
+﻿{
+  ErrorCode: INVALID_PHONE,
+  ErrorMessage: Некорректный формат номера телефона
+}

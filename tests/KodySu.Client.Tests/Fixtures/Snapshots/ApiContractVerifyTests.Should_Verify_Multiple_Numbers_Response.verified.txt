@@ -1,0 +1,38 @@
+﻿{
+  Quota: 481,
+  Numbers: [
+    {
+      PhoneNumber: 79161111111,
+      Success: true,
+      NumberType: 1,
+      NumberTypeString: Мобильный РФ,
+      DefCode: 916,
+      Operator: МТС,
+      Region: Москва,
+      IsRussianMobile: true,
+      IsRussianFixed: false,
+      IsPortedNumber: false
+    },
+    {
+      PhoneNumber: 79162222222,
+      Success: true,
+      NumberType: 1,
+      NumberTypeString: Мобильный РФ,
+      DefCode: 916,
+      Operator: Билайн,
+      Region: Московская область,
+      IsRussianMobile: true,
+      IsRussianFixed: false,
+      IsPortedNumber: false
+    },
+    {
+      PhoneNumber: 79163333333,
+      Success: false,
+      ErrorCode: INVALID_NUMBER,
+      ErrorMessage: Некорректный номер,
+      IsRussianMobile: false,
+      IsRussianFixed: false,
+      IsPortedNumber: false
+    }
+  ]
+}

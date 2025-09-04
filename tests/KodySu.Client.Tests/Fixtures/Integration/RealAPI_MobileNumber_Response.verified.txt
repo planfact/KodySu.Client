@@ -1,0 +1,19 @@
+﻿{
+  PhoneNumber: 79161234567,
+  Success: true,
+  NumberType: 1,
+  NumberTypeString: ru_mobile,
+  DefCode: 916,
+  Number: 1234567,
+  CodeStart: 0000000,
+  CodeEnd: 9999999,
+  Operator: МТС,
+  OperatorFull: ПАО &quot;Мобильные ТелеСистемы&quot;,
+  Region: Москва,
+  Time: 3.0,
+  IsBdpn: false,
+  BdpnOperator: ,
+  IsRussianMobile: true,
+  IsRussianFixed: false,
+  IsPortedNumber: false
+}

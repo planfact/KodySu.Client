@@ -1,0 +1,23 @@
+﻿{
+    "success": true,
+    "query": "79161234567",
+    "quota": "[VARIABLE]",
+    "numbers": [
+    {
+        "number_current": "79161234567",
+        "number_success": true,
+        "number_type_str": "ru_mobile",
+        "number_type": 1,
+        "def": "916",
+        "number": "1234567",
+        "code_start": "0000000",
+        "code_end": "9999999",
+        "operator": "МТС",
+        "operator_full": "ПАО &quot;Мобильные ТелеСистемы&quot;",
+        "region": "Москва",
+        "time": "3.0",
+        "bdpn": false,
+        "bdpn_operator": ""
+    }
+    ]
+}

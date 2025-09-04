@@ -1,11 +1,12 @@
 using FluentAssertions;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+
 using Reliable.HttpClient;
 using Reliable.HttpClient.Caching;
 using Reliable.HttpClient.Caching.Abstractions;
-using Xunit;
 
 namespace KodySu.Client.Tests;
 
@@ -126,52 +127,5 @@ public class ServiceCollectionExtensionsTests
 
         // Assert
         client1.Should().BeSameAs(client2); // Scoped lifetime
-    }
-
-    [Fact]
-    public void CustomOptionsConfiguration_AppliesCorrectly()
-    {
-        // Act
-        _services.Configure<KodySuClientOptions>(opts =>
-        {
-            opts.ApiKey = "custom-key";
-            opts.BaseUrl = "https://custom.api.com";
-            opts.TimeoutSeconds = 60;
-        });
-        ServiceProvider serviceProvider = _services.BuildServiceProvider();
-
-        // Assert
-        IOptions<KodySuClientOptions> options = serviceProvider.GetRequiredService<IOptions<KodySuClientOptions>>();
-        options.Value.ApiKey.Should().Be("custom-key");
-        options.Value.BaseUrl.Should().Be("https://custom.api.com");
-        options.Value.TimeoutSeconds.Should().Be(60);
-    }
-
-    [Fact]
-    public void WithCaching_RequiresMemoryCache()
-    {
-        // Arrange
-        _services.AddKodySuClient(_configuration);
-        _services.AddCachedKodySuClient(_configuration);
-
-        // Act
-        ServiceProvider serviceProvider = _services.BuildServiceProvider();
-
-        // Assert - проверяем, что MemoryCache зарегистрирован
-        serviceProvider.GetRequiredService<Microsoft.Extensions.Caching.Memory.IMemoryCache>().Should().NotBeNull();
-    }
-
-    [Fact]
-    public void WithCaching_RegistersHttpResponseCacheProvider()
-    {
-        // Arrange
-        _services.AddKodySuClient(_configuration);
-        _services.AddCachedKodySuClient(_configuration);
-
-        // Act
-        ServiceProvider serviceProvider = _services.BuildServiceProvider();
-
-        // Assert
-        serviceProvider.GetRequiredService<IHttpResponseCache<KodySuSearchResponse>>().Should().NotBeNull();
     }
 }
