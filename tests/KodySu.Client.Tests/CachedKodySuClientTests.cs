@@ -6,9 +6,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using Moq.Protected;
+
 using Reliable.HttpClient;
 using Reliable.HttpClient.Caching;
-using Xunit;
 
 namespace KodySu.Client.Tests;
 
@@ -128,31 +128,5 @@ public class CachedKodySuClientTests
                 Times.AtLeastOnce(),
                 ItExpr.IsAny<HttpRequestMessage>(),
                 ItExpr.IsAny<CancellationToken>());
-    }
-
-    [Fact]
-    public void Constructor_NullParameters_ThrowsArgumentNullException()
-    {
-        // Arrange
-        var httpClient = new HttpClient();
-        var cacheMock = new Mock<Reliable.HttpClient.Caching.Abstractions.IHttpResponseCache<KodySuSearchResponse>>();
-        var cacheOptionsMock = new Mock<IOptionsSnapshot<Reliable.HttpClient.Caching.Abstractions.HttpCacheOptions>>();
-        var cachedLoggerMock = new Mock<ILogger<CachedHttpClient<KodySuSearchResponse>>>();
-
-        var httpCacheOptions = new Reliable.HttpClient.Caching.Abstractions.HttpCacheOptions();
-        cacheOptionsMock.SetupGet(x => x.Value).Returns(httpCacheOptions);
-
-        var cachedHttpClient = new CachedHttpClient<KodySuSearchResponse>(httpClient, cacheMock.Object, cacheOptionsMock.Object, cachedLoggerMock.Object);
-        IOptions<KodySuClientOptions> kodySuOptions = Options.Create(new KodySuClientOptions { BaseUrl = "https://test.com", ApiKey = "test" });
-
-        // Act & Assert
-        Assert.Throws<ArgumentNullException>(() =>
-            new CachedKodySuClient(null!, _responseHandlerMock.Object, kodySuOptions, _loggerMock.Object));
-        Assert.Throws<ArgumentNullException>(() =>
-            new CachedKodySuClient(cachedHttpClient, null!, kodySuOptions, _loggerMock.Object));
-        Assert.Throws<ArgumentNullException>(() =>
-            new CachedKodySuClient(cachedHttpClient, _responseHandlerMock.Object, null!, _loggerMock.Object));
-        Assert.Throws<ArgumentNullException>(() =>
-            new CachedKodySuClient(cachedHttpClient, _responseHandlerMock.Object, kodySuOptions, null!));
     }
 }

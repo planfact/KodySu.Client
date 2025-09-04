@@ -1,0 +1,14 @@
+﻿{
+  Quota: 484,
+  Numbers: [
+    {
+      PhoneNumber: 79999999999,
+      Success: false,
+      ErrorCode: PHONE_NOT_FOUND,
+      ErrorMessage: Номер не найден в базе данных,
+      IsRussianMobile: false,
+      IsRussianFixed: false,
+      IsPortedNumber: false
+    }
+  ]
+}

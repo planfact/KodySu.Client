@@ -1,0 +1,23 @@
+﻿{
+  Quota: 485,
+  Numbers: [
+    {
+      PhoneNumber: 79161234567,
+      Success: true,
+      NumberType: 1,
+      NumberTypeString: Мобильный РФ,
+      DefCode: 916,
+      Number: 1234567,
+      CodeStart: 9160000000,
+      CodeEnd: 9169999999,
+      Operator: МТС,
+      OperatorFull: ПАО "Мобильные ТелеСистемы",
+      Region: Москва и Московская область,
+      Time: +3 MSK,
+      IsBdpn: false,
+      IsRussianMobile: true,
+      IsRussianFixed: false,
+      IsPortedNumber: false
+    }
+  ]
+}

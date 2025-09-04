@@ -16,6 +16,9 @@ coverage.xml
 coverage.cobertura.xml
 coverage.opencover.xml
 
+# Verify snapshot testing
+*.received.*
+
 # OS
 .DS_Store
 Thumbs.db

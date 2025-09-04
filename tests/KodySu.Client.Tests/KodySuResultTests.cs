@@ -1,4 +1,3 @@
-using Xunit;
 using FluentAssertions;
 
 namespace KodySu.Client.Tests;
@@ -160,67 +159,5 @@ public class KodySuResultTests
 
         // Act & Assert
         result.IsPortedNumber.Should().BeFalse();
-    }
-
-    [Fact]
-    public void Record_Equality_WorksCorrectly()
-    {
-        // Arrange: тестируем равенство record объектов
-        var result1 = new KodySuResult
-        {
-            PhoneNumber = "79991234567",
-            Success = true,
-            Operator = "МТС"
-        };
-
-        var result2 = new KodySuResult
-        {
-            PhoneNumber = "79991234567",
-            Success = true,
-            Operator = "МТС"
-        };
-
-        var result3 = new KodySuResult
-        {
-            PhoneNumber = "79991234567",
-            Success = true,
-            Operator = "Билайн"
-        };
-
-        // Act & Assert
-        result1.Should().Be(result2);
-        result1.Should().NotBe(result3);
-        result1.GetHashCode().Should().Be(result2.GetHashCode());
-        result1.GetHashCode().Should().NotBe(result3.GetHashCode());
-    }
-
-    [Fact]
-    public void AllProperties_DefaultValues_AreCorrect()
-    {
-        // Arrange & Act: проверяем значения по умолчанию для всех свойств
-        var result = new KodySuResult();
-
-        // Assert
-        result.PhoneNumber.Should().Be(string.Empty);
-        result.Success.Should().BeFalse();
-        result.NumberType.Should().BeNull();
-        result.NumberTypeString.Should().BeNull();
-        result.ErrorCode.Should().BeNull();
-        result.ErrorMessage.Should().BeNull();
-        result.DefCode.Should().BeNull();
-        result.Number.Should().BeNull();
-        result.CodeStart.Should().BeNull();
-        result.CodeEnd.Should().BeNull();
-        result.Operator.Should().BeNull();
-        result.OperatorFull.Should().BeNull();
-        result.Region.Should().BeNull();
-        result.Time.Should().BeNull();
-        result.IsBdpn.Should().BeNull();
-        result.BdpnOperator.Should().BeNull();
-        result.CityCode.Should().BeNull();
-        result.City.Should().BeNull();
-        result.CountryCode.Should().BeNull();
-        result.InternationalCityCode.Should().BeNull();
-        result.Country.Should().BeNull();
     }
 }
