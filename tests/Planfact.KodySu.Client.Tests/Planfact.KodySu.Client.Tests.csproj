@@ -26,6 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\KodySu.Client\KodySu.Client.csproj" />
+    <ProjectReference Include="../../src/Planfact.KodySu.Client/Planfact.KodySu.Client.csproj" />
   </ItemGroup>
 </Project>
