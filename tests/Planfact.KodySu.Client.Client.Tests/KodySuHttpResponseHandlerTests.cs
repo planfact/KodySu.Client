@@ -8,7 +8,7 @@ using Moq;
 using Xunit;
 
 
-namespace KodySu.Client.Tests;
+namespace Planfact.KodySu.Client.Tests;
 
 public class KodySuHttpResponseHandlerTests
 {

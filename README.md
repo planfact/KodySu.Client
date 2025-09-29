@@ -1,12 +1,12 @@
-# KodySu.Client
+# Planfact.KodySu.Client
 
-[![NuGet Version](https://img.shields.io/nuget/v/KodySu.Client.svg)](https://www.nuget.org/packages/KodySu.Client/)
-[![NuGet Downloads](https://img.shields.io/nuget/dt/KodySu.Client.svg)](https://www.nuget.org/packages/KodySu.Client/)
-[![Build Status](https://github.com/planfact/KodySu.Client/workflows/Build%20%26%20Test/badge.svg)](https://github.com/planfact/KodySu.Client/actions)
-[![codecov](https://codecov.io/gh/planfact/KodySu.Client/branch/main/graph/badge.svg)](https://codecov.io/gh/planfact/KodySu.Client)
+[![NuGet Version](https://img.shields.io/nuget/v/Planfact.KodySu.Client.svg)](https://www.nuget.org/packages/Planfact.KodySu.Client/)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/Planfact.KodySu.Client.svg)](https://www.nuget.org/packages/Planfact.KodySu.Client/)
+[![Build Status](https://github.com/planfact/Planfact.KodySu.Client/workflows/Build%20%26%20Test/badge.svg)](https://github.com/planfact/Planfact.KodySu.Client/actions)
+[![codecov](https://codecov.io/gh/planfact/Planfact.KodySu.Client/branch/main/graph/badge.svg)](https://codecov.io/gh/planfact/Planfact.KodySu.Client)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![.NET](https://img.shields.io/badge/.NET-6.0%20%7C%208.0%20%7C%209.0-blue)](https://dotnet.microsoft.com/)
-[![GitHub release](https://img.shields.io/github/release/planfact/KodySu.Client.svg)](https://github.com/planfact/KodySu.Client/releases)
+[![GitHub release](https://img.shields.io/github/release/planfact/Planfact.KodySu.Client.svg)](https://github.com/planfact/Planfact.KodySu.Client/releases)
 
 Типобезопасный .NET клиент для работы с [KodySu API v2.1](https://www.kody.su/api?docs) с поддержкой кеширования.
 
@@ -23,7 +23,7 @@
 ## Установка
 
 ```bash
-dotnet add package KodySu.Client
+dotnet add package Planfact.KodySu.Client
 ```
 
 ## Быстрый старт

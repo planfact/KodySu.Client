@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 
-namespace KodySu.Client.Tests;
+namespace Planfact.KodySu.Client.Tests;
 
 public static class ModuleInitializer
 {

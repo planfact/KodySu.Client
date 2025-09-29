@@ -8,8 +8,10 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Version>1.0.0</Version>
     <Authors>Andrey Krisanov</Authors>
-    <PackageId>KodySu.Client</PackageId>
-    <Title>KodySu.Client</Title>
+    <PackageId>Planfact.KodySu.Client</PackageId>
+    <Title>Planfact.KodySu.Client</Title>
+    <AssemblyName>Planfact.KodySu.Client</AssemblyName>
+    <RootNamespace>Planfact.KodySu.Client</RootNamespace>
     <Description>Типобезопасный клиент для API kody.su (поиск информации по телефонным номерам).</Description>
     <RepositoryUrl>https://github.com/akrisanov/KodySu.Client</RepositoryUrl>
     <PackageTags>kodysu;phone;lookup;carrier;api;dotnet;client</PackageTags>

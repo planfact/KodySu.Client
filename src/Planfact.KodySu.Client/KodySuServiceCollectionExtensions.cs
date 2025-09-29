@@ -6,7 +6,7 @@ using Reliable.HttpClient;
 using Reliable.HttpClient.Caching;
 using Reliable.HttpClient.Caching.Extensions;
 
-namespace KodySu.Client;
+namespace Planfact.KodySu.Client;
 
 /// <summary>
 /// Методы-расширения для регистрации клиентов KodySu в DI-контейнере

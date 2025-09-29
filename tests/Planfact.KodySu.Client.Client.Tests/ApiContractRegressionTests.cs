@@ -1,4 +1,4 @@
-namespace KodySu.Client.Tests;
+namespace Planfact.KodySu.Client.Tests;
 
 /// <summary>
 /// Тесты для проверки расширенной структуры ответов API KodySu.

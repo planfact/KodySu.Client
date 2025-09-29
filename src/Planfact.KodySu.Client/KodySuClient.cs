@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 
 using Reliable.HttpClient;
 
-namespace KodySu.Client;
+namespace Planfact.KodySu.Client;
 
 /// <summary>
 /// HTTP клиент для KodySu API без кеширования

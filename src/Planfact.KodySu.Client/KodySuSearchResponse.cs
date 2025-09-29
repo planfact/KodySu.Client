@@ -1,7 +1,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace KodySu.Client;
+namespace Planfact.KodySu.Client;
 
 /// <summary>
 /// Ответ от KodySu API при поиске телефонного номера

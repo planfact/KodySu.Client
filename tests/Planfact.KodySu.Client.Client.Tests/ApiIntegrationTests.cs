@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using FluentAssertions;
 
-namespace KodySu.Client.Tests;
+namespace Planfact.KodySu.Client.Tests;
 
 /// <summary>
 /// Integration тесты для проверки реального API kody.su

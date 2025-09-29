@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using Reliable.HttpClient;
 using Reliable.HttpClient.Caching;
 
-namespace KodySu.Client;
+namespace Planfact.KodySu.Client;
 
 /// <summary>
 /// Кэшированная реализация KodySu клиента с использованием Reliable.HttpClient.Caching

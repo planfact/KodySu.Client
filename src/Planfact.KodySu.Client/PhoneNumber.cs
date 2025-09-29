@@ -1,5 +1,5 @@
 
-namespace KodySu.Client;
+namespace Planfact.KodySu.Client;
 
 /// <summary>
 /// Value object, представляющий телефонный номер

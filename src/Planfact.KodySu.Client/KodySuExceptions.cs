@@ -1,4 +1,4 @@
-namespace KodySu.Client;
+namespace Planfact.KodySu.Client;
 
 /// <summary>
 /// Базовый тип исключения для ошибок, связанных с KodySu API

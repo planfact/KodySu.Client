@@ -1,4 +1,4 @@
-namespace KodySu.Client;
+namespace Planfact.KodySu.Client;
 
 /// <summary>
 /// Тип номера телефона, возвращаемый KodySu API

@@ -10,7 +10,7 @@ using Moq.Protected;
 using Reliable.HttpClient;
 using Reliable.HttpClient.Caching;
 
-namespace KodySu.Client.Tests;
+namespace Planfact.KodySu.Client.Tests;
 
 public class CachedKodySuClientTests
 {

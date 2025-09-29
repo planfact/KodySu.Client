@@ -34,8 +34,8 @@ jobs:
         with:
           name: build-artifacts
           path: |
-            src/KodySu.Client/bin/Release/
-            tests/KodySu.Client.Tests/bin/Release/
+            src/Planfact.KodySu.Client/bin/Release/
+            tests/Planfact.KodySu.Client.Tests/bin/Release/
           retention-days: 1
 
   unit-tests:

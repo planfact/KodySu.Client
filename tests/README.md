@@ -1,4 +1,4 @@
-# Тестирование KodySu.Client
+# Тестирование Planfact.KodySu.Client
 
 ## Стратегия тестирования
 

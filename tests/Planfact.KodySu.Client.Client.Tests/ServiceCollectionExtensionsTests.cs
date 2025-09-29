@@ -8,7 +8,7 @@ using Reliable.HttpClient;
 using Reliable.HttpClient.Caching;
 using Reliable.HttpClient.Caching.Abstractions;
 
-namespace KodySu.Client.Tests;
+namespace Planfact.KodySu.Client.Tests;
 
 public class ServiceCollectionExtensionsTests
 {

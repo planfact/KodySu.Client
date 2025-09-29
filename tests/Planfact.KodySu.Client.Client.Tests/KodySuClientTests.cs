@@ -8,7 +8,7 @@ using Moq;
 using Reliable.HttpClient;
 using Xunit;
 
-namespace KodySu.Client.Tests;
+namespace Planfact.KodySu.Client.Tests;
 
 public class KodySuClientTests : IDisposable
 {

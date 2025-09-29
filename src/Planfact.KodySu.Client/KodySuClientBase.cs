@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
 
-namespace KodySu.Client;
+namespace Planfact.KodySu.Client;
 
 /// <summary>
 /// Абстрактный базовый класс для клиентов KodySu, предоставляющий общие методы и логику.

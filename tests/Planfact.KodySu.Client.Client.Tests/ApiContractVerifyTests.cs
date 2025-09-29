@@ -2,7 +2,7 @@ using System.Text.Json;
 
 using FluentAssertions;
 
-namespace KodySu.Client.Tests;
+namespace Planfact.KodySu.Client.Tests;
 
 /// <summary>
 /// Тесты для проверки контракта API KodySu с использованием Verify для snapshot тестирования

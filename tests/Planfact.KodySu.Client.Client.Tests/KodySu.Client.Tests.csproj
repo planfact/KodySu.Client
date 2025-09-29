@@ -5,6 +5,8 @@
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+    <AssemblyName>Planfact.KodySu.Client.Tests</AssemblyName>
+    <RootNamespace>Planfact.KodySu.Client.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

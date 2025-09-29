@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 using Reliable.HttpClient;
 
-namespace KodySu.Client;
+namespace Planfact.KodySu.Client;
 
 
 /// <summary>

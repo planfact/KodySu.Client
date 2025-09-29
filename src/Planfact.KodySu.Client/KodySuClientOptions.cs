@@ -1,6 +1,6 @@
 using Reliable.HttpClient;
 
-namespace KodySu.Client;
+namespace Planfact.KodySu.Client;
 
 /// <summary>
 /// Опции конфигурации для клиента KodySu API

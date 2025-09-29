@@ -1,4 +1,4 @@
-namespace KodySu.Client;
+namespace Planfact.KodySu.Client;
 
 /// <summary>
 /// Контракт клиента для работы с KodySu API (поиск информации по телефонным номерам).

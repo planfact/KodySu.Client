@@ -6,9 +6,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0AB3BF05
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72D-47B6-A68D-7590B98EB39B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KodySu.Client.Tests", "tests\KodySu.Client.Tests\KodySu.Client.Tests.csproj", "{34240FD3-E3A3-6C11-57E5-AA0B42BBB581}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Planfact.KodySu.Client.Tests", "tests\Planfact.KodySu.Client.Tests\Planfact.KodySu.Client.Tests.csproj", "{34240FD3-E3A3-6C11-57E5-AA0B42BBB581}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KodySu.Client", "src\KodySu.Client\KodySu.Client.csproj", "{3717E7D6-26B6-D10D-857E-ACE582D507ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Planfact.KodySu.Client", "src\Planfact.KodySu.Client\Planfact.KodySu.Client.csproj", "{3717E7D6-26B6-D10D-857E-ACE582D507ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

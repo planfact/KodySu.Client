@@ -1,6 +1,6 @@
 using FluentAssertions;
 
-namespace KodySu.Client.Tests;
+namespace Planfact.KodySu.Client.Tests;
 
 public class KodySuResultTests
 {
