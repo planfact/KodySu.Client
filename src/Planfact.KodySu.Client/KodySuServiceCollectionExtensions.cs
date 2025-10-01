@@ -3,8 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 using Reliable.HttpClient;
-using Reliable.HttpClient.Caching;
 using Reliable.HttpClient.Caching.Extensions;
+using Reliable.HttpClient.Caching.Generic;
 
 namespace Planfact.KodySu.Client;
 
