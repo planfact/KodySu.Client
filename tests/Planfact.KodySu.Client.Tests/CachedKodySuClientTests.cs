@@ -8,7 +8,7 @@ using Moq;
 using Moq.Protected;
 
 using Reliable.HttpClient;
-using Reliable.HttpClient.Caching;
+using Reliable.HttpClient.Caching.Generic;
 
 namespace Planfact.KodySu.Client.Tests;
 

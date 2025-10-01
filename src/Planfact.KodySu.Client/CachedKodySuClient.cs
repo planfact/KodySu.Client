@@ -2,7 +2,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using Reliable.HttpClient;
-using Reliable.HttpClient.Caching;
+using Reliable.HttpClient.Caching.Generic;
 
 namespace Planfact.KodySu.Client;
 
@@ -64,6 +64,7 @@ public sealed class CachedKodySuClient(
         {
             return Task.FromException<IReadOnlyList<KodySuResult>>(new ArgumentNullException(nameof(phoneNumbers)));
         }
+
         return SearchPhonesAsyncCore(phoneNumbers, cancellationToken);
     }
 
